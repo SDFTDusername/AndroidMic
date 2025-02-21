@@ -3,6 +3,7 @@ package com.example.androidMic.ui
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -36,6 +37,8 @@ class MainActivity : ComponentActivity() {
                 HomeScreen(vm, windowInfo)
             }
         }
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -47,6 +50,7 @@ class MainActivity : ComponentActivity() {
             // get status
             vm.askForStatus()
         }
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     override fun onStart() {
@@ -59,8 +63,19 @@ class MainActivity : ComponentActivity() {
         vm.refreshAppVariables()
 
         (application as AndroidMicApp).bindService()
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
+    override fun onResume() {
+        super.onResume()
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
 
     override fun onStop() {
         super.onStop()
@@ -69,6 +84,7 @@ class MainActivity : ComponentActivity() {
         ignore { vm.handlerThread.join(WAIT_PERIOD) }
 
         (application as AndroidMicApp).unBindService()
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
 }
