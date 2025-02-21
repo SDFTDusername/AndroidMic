@@ -26,11 +26,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.example.androidMic.AndroidMicApp
 import com.example.androidMic.Dialogs
 import com.example.androidMic.Mode
 import com.example.androidMic.R
 import com.example.androidMic.ui.MainViewModel
 import com.example.androidMic.ui.components.ManagerButton
+import com.example.androidMic.ui.components.ManagerCheckBox
 import com.example.androidMic.ui.home.dialog.DialogIpPort
 import com.example.androidMic.ui.utils.WindowInfo
 import com.example.androidMic.ui.utils.getBluetoothPermission
@@ -95,7 +97,7 @@ fun HomeScreen(vm: MainViewModel, currentWindowInfo: WindowInfo) {
                         .constrainAs(interactionButton) {
                             bottom.linkTo(parent.bottom)
                             width = Dimension.matchParent
-                            height = Dimension.percent(0.15f)
+                            height = Dimension.percent(0.20f)
                         }
                 )
 
@@ -187,6 +189,9 @@ private fun InteractionButton(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        ButtonMute(
+            vm = mainViewModel
+        )
         ButtonConnect(
             vm = mainViewModel,
         )
@@ -259,6 +264,19 @@ private fun ButtonConnect(
         else
             stringResource(id = R.string.connect),
         enabled = vm.isButtonConnectClickable.value
+    )
+}
+
+@Composable
+private fun ButtonMute(
+    vm: MainViewModel,
+) {
+    ManagerCheckBox(
+        checked = AndroidMicApp.muted.value,
+        onClick = {
+            AndroidMicApp.muted.value = !AndroidMicApp.muted.value
+        },
+        text = stringResource(id = R.string.mute)
     )
 }
 

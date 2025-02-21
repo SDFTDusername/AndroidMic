@@ -8,6 +8,7 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import android.os.Messenger
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import com.example.androidMic.domain.service.ForegroundService
 import com.example.androidMic.ui.MainActivity
 import kotlinx.coroutines.MainScope
@@ -22,6 +23,7 @@ class AndroidMicApp : Application() {
         lateinit var appModule: AppModule
         var mService: Messenger? = null
         var mBound = false
+        val muted = mutableStateOf(false);
     }
 
     private val scope = MainScope()

@@ -2,6 +2,7 @@
     <!--
     Main UI
     -->
+    <string name="mute">Muet?</string>
     <string name="connect">Connecter</string>
     <string name="disconnect">Deconnecter</string>
     <string name="turn_audio">Enregister l\'audio</string>

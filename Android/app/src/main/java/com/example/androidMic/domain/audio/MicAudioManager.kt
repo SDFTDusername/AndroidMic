@@ -8,6 +8,7 @@ import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.util.Log
 import androidx.core.content.ContextCompat
+import com.example.androidMic.AndroidMicApp
 import com.example.androidMic.domain.service.AudioPacket
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -91,6 +92,8 @@ class MicAudioManager(
                     continue
                 }
                 val bytesRead = recorder.read(buffer, 0, buffer.size)
+                if (AndroidMicApp.muted.value)
+                    buffer.fill(0)
 
                 if (bytesRead <= 0) {
                     delay(RECORD_DELAY_MS)
